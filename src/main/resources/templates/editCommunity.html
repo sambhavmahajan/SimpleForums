@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Community</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <nav class="navbar">
+        <div class="logo">Simple Forums</div>
+        <ul class="nav-links">
+            <li><a th:href="@{'/user/' + ${username}}" class="profile" th:if="${logged}">Profile</a></li>
+            <li><a href="/logout" class="logout" th:if="${logged}">Logout</a></li>
+            <li><a href="/register" class="sign-up" th:if="${logged == false}">Register</a></li>
+            <li><a href="/login" class="login" th:if="${logged == false}">Login</a></li>
+            <li>
+                <form class="search-form" action="action_page.php">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit">Search</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .navbar {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-form {
+            display: flex;
+        }
+
+        .search-form input[type="text"] {
+            padding: 5px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-form button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #2980b9;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #1c598a;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <p style="background-color: red" th:if="${fail == true}">Something Bad Happened</p>
+    <h1>Edit Community</h1>
+    <form id="postForm" method="post" action="/editCommunity">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" readonly th:value="${name}">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="10" th:text="${description}" required></textarea>
+        <label for="rules">Rules:</label>
+        <textarea id="rules" name="rules" rows="10" th:text="${rules}"></textarea>
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Post Detail</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .navbar {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-form {
+            display: flex;
+        }
+
+        .search-form input[type="text"] {
+            padding: 5px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-form button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #2980b9;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #1c598a;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .post {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .comments-section {
+            margin-top: 20px;
+        }
+        .comment {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .comment-input {
+            margin-top: 20px;
+        }
+        .button {
+            margin-right: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .like-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .user-info {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .user-info img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+        .user-info h2 {
+            margin: 0;
+        }
+        .user-info p {
+            margin: 5px 0;
+        }
+        .button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            margin-top: 10px;
+        }
+        .posts, .communities {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .post, .community {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .dislike-button {
+            background-color: #008CBA;
+            color: white;
+        }
+        .Delete-button{
+            background-color: orange;
+            color: white;
+        }
+        form.example input[type=text] {
+            padding: 5px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 50%;
+            background: #f1f1f1;
+        }
+
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 5px;
+            background: #2196F3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+        form.example button:hover {
+            background: #0b7dda;
+        }
+
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="logo">Simple Forums</div>
+    <ul class="nav-links">
+        <li><a th:href="@{'/user/' + ${username}}" class="profile" th:if="${logged}">Profile</a></li>
+        <li><a href="/logout" class="logout" th:if="${logged}">Logout</a></li>
+        <li><a href="/register" class="sign-up" th:if="${logged == false}">Register</a></li>
+        <li><a href="/login" class="login" th:if="${logged == false}">Login</a></li>
+        <li>
+            <form class="search-form" action="action_page.php">
+                <input type="text" placeholder="Search.." name="search">
+                <button type="submit">Search</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<hr>
+<div class="post">
+    <h1 th:text="${title}">Post Title</h1>
+    <p><strong>Author: </strong><a th:href="@{'/user/' + ${author}}"><span th:text="${author}"></span></a></p>
+    <p><strong>Posted on: </strong><span th:text="${timeStamp}"></span></p>
+    <p th:text="${content}">This is the body of the post. It contains the main content of the post.</p>
+    <div>
+        <th:block th:if="${logged}">
+            <form method="post" th:action="@{'/community/' + ${community} + '/' + ${id} + '/upvote'}">
+                <button class="button like-button" th:text="'Like ' + ${postLikes}" type="submit">Like</button>
+            </form>
+            <form method="post" th:action="@{'/community/' + ${community} + '/' + ${id} + '/downvote'}">
+                <button class="button dislike-button" th:text="'Dislike ' + ${postDislikes}" type="submit">Dislike</button>
+            </form>
+        </th:block>
+        <th:block th:if="${logged == false}">
+            <form method="get" action="/login">
+                <button class="button like-button" th:text="'Likes ' + ${postLikes}" type="submit">Like</button>
+                <button class="button dislike-button" th:text="'Dislikes ' + ${postDislikes}" type="submit">Dislike</button>
+            </form>
+        </th:block>
+    </div>
+</div>
+<div class="comments-section">
+    <h2>Comments</h2>
+    <th:block th:if="${logged}">
+        <div class="comment-input">
+            <form method="post" th:action="@{'/community/' + ${community} + '/' + ${id} + '/comment'}">
+            <textarea rows="4" cols="50" placeholder="Add a comment..." name="content"></textarea><br>
+            <button class="button" type="submit">Comment</button>
+            </form>
+        </div>
+    </th:block>
+    <th:block th:each="comment : ${comments}">
+        <div class="comment" >
+            <p><a th:href="@{'/user/' + ${comment.getAuthor().getUsername()}}"><strong th:text="${comment.getAuthor().getUsername()}">Commenter 1:</strong></a></p>
+            <p>Time: <span th:text="${comment.getTimeStamp()}"></span></p>
+            <p th:text="${comment.getContent()}"></p>
+            <th:block th:if="${logged}">
+               <form method="post" th:action="@{'/community/' + ${community} + '/' + ${id} + '/' + ${comment.getId()} + '/upvote'}">
+                   <button class="button like-button" th:text="'Like ' + ${comment.getUpvotes()}" type="submit">Like</button>
+               </form>
+                <form method="post" th:action="@{'/community/' + ${community} + '/' + ${id} + '/' + ${comment.getId()} + '/downvote'}">
+                    <button class="button dislike-button" th:text="'Dislike ' + ${comment.getDownvotes()}" type="submit">Dislike</button>
+                </form>
+                <form th:if="${usr.getUsername().equals(comment.getAuthor().getUsername())}" method="post" th:action="@{'/community/' + ${community} + '/' + ${id} + '/' + ${comment.getId()} + '/delete'}">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button class="button Delete-button" type="submit">Delete</button>
+                </form>
+            </th:block>
+            <th:block th:if="${logged == false}">
+                <form method="GET" action="/login">
+                    <button class="button like-button" th:text="'Like ' + ${comment.getUpvotes()}" type="submit">Like</button>
+                    <button class="button dislike-button" th:text="'Dislike ' + ${comment.getDownvotes()}" type="submit">Dislike</button>
+                </form>
+            </th:block>
+        </div>
+    </th:block>
+</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <nav class="navbar">
+        <div class="logo">Simple Forums</div>
+        <ul class="nav-links">
+            <li><a th:href="@{'/user/' + ${username}}" class="profile" th:if="${logged}">Profile</a></li>
+            <li><a href="/logout" class="logout" th:if="${logged}">Logout</a></li>
+            <li><a href="/register" class="sign-up" th:if="${logged == false}">Register</a></li>
+            <li><a href="/login" class="login" th:if="${logged == false}">Login</a></li>
+            <li>
+                <form class="search-form" action="action_page.php">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit">Search</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .navbar {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-form {
+            display: flex;
+        }
+
+        .search-form input[type="text"] {
+            padding: 5px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-form button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #2980b9;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #1c598a;
+        }
+
+    </style>
+</head>
+<body>
+<th:block th:if="${fail == false}">
+    <div class="container">
+        <div class="community-info">
+            <form th:if="${owner}" method="GET" th:action="@{/editCommunity/{name}(name=${name})}">
+                <button type="submit">Edit Community</button>
+            </form>
+            <h1 id="community-title" th:text="${name}">Community Title</h1>
+            <p id="community-description" th:text="${description}">This is a brief description of the community.</p>
+            <p id="member-count">Members: <span th:text="${count}">1</span></p>
+            <h3>Community Rules:</h3>
+            <ul>
+                <th:block th:each="rule : ${rules}">
+                    <li th:text="${rule}"></li>
+                </th:block>
+            </ul>
+            <form method="post" th:if="${member}" th:action="@{/leave/{name}(name=${name})}">
+                <button id="leave-button" type="submit">Leave Community</button>
+            </form>
+            <form method="post" th:if="${member == false}" th:action="@{/join/{name}(name=${name})}">
+                <button id="join-button">Join Community</button>
+            </form>
+        </div>
+        <th:block th:if="${member}">
+            <div class="create-post">
+                <form method="GET" th:action="@{'/newPost/' + ${name}}">
+                    <button id="create-post-button">Create Post</button>
+                </form>
+            </div>
+        </th:block>
+    </div>
+    <div class="posts-list">
+        <h2>Posts</h2>
+            <th:block th:each="post : ${posts}">
+                <div class="post">
+                    <a th:href="@{'/community/' + ${name} + '/' + ${post.getId()}}">
+                        <h3 th:text="${post.getTitle()}">Post Title</h3>
+                        <p th:text="${post.getContent()}">Content</p>
+                    </a>
+                </div>
+            </th:block>
+    </div>
+</th:block>
+<h1 th:if="${fail == true}">404 Error!</h1>
+</body>
+</html>

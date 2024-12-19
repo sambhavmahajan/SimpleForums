@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Forums</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .welcome-message {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .navbar {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-form {
+            display: flex;
+        }
+
+        .search-form input[type="search"] {
+            padding: 5px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-form button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #2980b9;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #1c598a;
+        }
+
+        .community-feed {
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .community-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .community-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .join-btn, .leave-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .join-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .recent-posts {
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .post-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .post-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .create-community-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .create-community-btn:hover {
+            background-color: #219653;
+        }
+
+        .community-categories {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-btn:hover + .dropdown-content,
+        .dropdown-content:hover {
+            display: block;
+        }
+
+        .dropdown-content li {
+            padding: 10px;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<th:block th:if="${logged}">
+<div class="welcome-message">
+    <h1 th:text="'Welcome ' + ${name}">Welcome name!</h1>
+    <p>We are delighted to have you here. Explore our website to discover amazing content.</p>
+</div>
+</th:block>
+<nav class="navbar">
+    <div class="logo">Simple Forums</div>
+    <ul class="nav-links">
+        <li><a th:href="@{'/user/' + ${usr.getUsername()}}" class="profile" th:if="${logged}">Profile</a></li>
+        <li><a href="/logout" class="logout" th:if="${logged}">Logout</a></li>
+        <li><a href="/register" class="sign-up" th:if="${logged == false}">Register</a></li>
+        <li><a href="/login" class="login" th:if="${logged == false}">Login</a></li>
+        <li>
+            <form class="search-form" action="action_page.php">
+                <input type="text" placeholder="Search.." name="search">
+                <button type="submit">Search</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<section class="community-feed">
+    <h2>Explore Communities</h2>
+    <ul class="community-list">
+        <th:block th:each="community : ${communities}">
+        <li class="community-card">
+            <a th:href="@{'/community/' + ${community.getName()}}">
+                <h3 th:text="${community.getName()}"></h3>
+            </a>
+            <p th:text="${community.getDescription()}">Discuss the latest in technology, gadgets, and innovations.</p>
+            <th:block th:if="${logged}">
+                <th:block th:switch="${community.getMembers().contains(usr)}">
+                    <form th:action="@{'/leave/' + ${community.getName()}}" th:case="true" method="post">
+                        <button class="leave-btn">Leave</button>
+                    </form>
+                    <form th:action="@{'/join/' + ${community.getName()}}" th:case="false" method="post">
+                        <button class="join-btn">Join</button>
+                    </form>
+                </th:block>
+            </th:block>
+        </li>
+        </th:block>
+    </ul>
+</section>
+
+<th:block th:if="${logged}">
+    <form action="/createCommunity" method="GET">
+        <button class="create-community-btn" type="submit">Create New Community</button>
+    </form>
+<section class="recent-posts">
+    <h2>Recent Posts from Joined Communities</h2>
+    <ul class="post-list">
+        <li class="post-card" th:each="post : ${posts}">
+            <h3>Exploring the Latest Tech Trends</h3>
+            <p>Join us as we dive into the most exciting tech trends of 2023!</p>
+            <p>Posted by <span>JaneDoe</span> in <span>Tech Innovators</span></p>
+        </li>
+    </ul>
+</section>
+</th:block>
+
+</body>
+</html>
