@@ -8,6 +8,7 @@
     <nav class="navbar">
         <div class="logo">Simple Forums</div>
         <ul class="nav-links">
+            <li><a href="/home" class="home" >Home</a></li>
             <li><a th:href="@{'/user/' + ${username}}" class="profile" th:if="${logged}">Profile</a></li>
             <li><a href="/logout" class="logout" th:if="${logged}">Logout</a></li>
             <li><a href="/register" class="sign-up" th:if="${logged == false}">Register</a></li>
