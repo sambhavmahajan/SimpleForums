@@ -1,5 +1,6 @@
 package com.github.sambhavmahajan.simpleforums.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ public class ForumUser {
     private String password;
     private String firstName;
     private String lastName;
+    @Column(length = 1000)
     private String bio;
     private String profilePicUrl;
     private String email;

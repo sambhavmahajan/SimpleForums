@@ -13,6 +13,7 @@ public class Community {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    @Column(length = 1000)
     private String description;
     private long memberCount;
     @ManyToMany
@@ -22,6 +23,7 @@ public class Community {
     @OneToMany
     private Set<Post> posts;
     @ElementCollection
+    @Column(length = 1000)
     private List<String> rules;
 
     public Community(String name, String description, long memberCount, Set<ForumUser> members, ForumUser owner, Set<Post> posts, ArrayList<String> rules) {

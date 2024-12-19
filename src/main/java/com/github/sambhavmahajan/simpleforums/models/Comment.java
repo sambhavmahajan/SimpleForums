@@ -13,6 +13,7 @@ public class Comment {
     @Id
     @GeneratedValue
     private long id;
+    @Column(length = 1000)
     private String content;
     @ManyToOne
     private Post parentPost;

@@ -14,6 +14,7 @@ public class Post {
     @GeneratedValue
     private long id;
     private String title;
+    @Column(length = 1000)
     private String content;
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
