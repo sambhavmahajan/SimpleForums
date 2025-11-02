@@ -1,5 +1,5 @@
 # Simple Forums
-> This is a Forum webapp, it offers basic functionality such as account registration/login, creating communities, posts, and commenting on posts, also liking and disliking comments is also possible in this app.
+> This is a Forum webapp, it offers basic functionality such as account registration/login, creating communities, posts, and commenting on posts, also liking and disliking comments is also possible in this app. The app will run on 8080 port by default.
 
 ## Requirements
 | Requirement | Version |
@@ -12,12 +12,26 @@
 | Make | GNU Make 4.4.1|
 
 ## Database setup
-create an .env (or .env.properties) or set up using terminal.
+Create an .env file in the root folder
 ```
 DB_URL=jdbc:postgresql://[URL]:[PORT]/postgres
 DB_USERNAME=postgres
 DB_PASSWORD=password
 ```
+OR
+Create variables in terminal session
+```
+#Linux
+export DB_URL=jdbc:postgresql://[URL]:[PORT]/postgres
+export DB_USERNAME=username
+export DB_PASSWORD=password
+
+#windows
+set DB_URL=jdbc:postgresql://[URL]:[PORT]/postgres
+set DB_USERNAME=postgres
+set DB_PASSWORD=password
+```
+Use Postgres on local machine or on cloud.
 *Note: If using supabase, use Transaction pooler method instead of Direct connection method.
 
 ## Pooling
@@ -30,9 +44,10 @@ spring.datasource.hikari.maximum-pool-size=5
 ```
 
 ## Create tables
-modify validate to update
+Modify application.properties
 ```
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.ddl-auto=create # First run, this will auto create tables
+spring.jpa.hibernate.ddl-auto=validate # Subsequent runs
 ```
 
 ## Run
@@ -55,3 +70,8 @@ OR
 ```
 make build
 ```
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss your proposed changes.
+
+## License
+This project is licensed under the [MIT License](LICENSE)
