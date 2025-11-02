@@ -14,21 +14,21 @@
 ## Database setup
 Create an .env file in the root folder
 ```
-DB_URL=jdbc:postgresql://[URL]:[PORT]/postgres
-DB_USERNAME=postgres
+DB_URL=jdbc:postgresql://[HOST]:[PORT]/[DB_NAME]
+DB_USERNAME=username
 DB_PASSWORD=password
 ```
 OR
 Create variables in terminal session
 ```
 #Linux
-export DB_URL=jdbc:postgresql://[URL]:[PORT]/postgres
+export DB_URL=jdbc:postgresql://[HOST]:[PORT]/[DB_NAME]
 export DB_USERNAME=username
 export DB_PASSWORD=password
 
 #windows
-set DB_URL=jdbc:postgresql://[URL]:[PORT]/postgres
-set DB_USERNAME=postgres
+set DB_URL=jdbc:postgresql://[HOST]:[PORT]/[DB_NAME]
+set DB_USERNAME=username
 set DB_PASSWORD=password
 ```
 Use Postgres on local machine or on cloud.
