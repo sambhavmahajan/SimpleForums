@@ -37,7 +37,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ## Run
 ```
-\mvn spring-boot:run
+mvn spring-boot:run
 ```
 OR
 ```
