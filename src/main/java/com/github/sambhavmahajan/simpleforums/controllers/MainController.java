@@ -39,6 +39,11 @@ public class MainController {
         this.voteRepository = voteRepository;
     }
 
+    @GetMapping("/ping")
+    @ResponseBody
+    public String ping() {
+        return "ping";
+    }
     public boolean setCommonVariables(HttpSession session, Model model) {
         if(!sessionManager.isValidSession(session)) {
             model.addAttribute("logged", false);
