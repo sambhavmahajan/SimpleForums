@@ -1,4 +1,5 @@
 # Simple Forums
+<b>Project abandoned, please dont clone</b>
 > This is a Forum webapp, it offers basic functionality such as account registration/login, creating communities, posts, and commenting on posts, also liking and disliking comments is also possible in this app. The app will run on 8080 port by default.
 
 ## Requirements
